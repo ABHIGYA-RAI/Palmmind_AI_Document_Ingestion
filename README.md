@@ -109,6 +109,29 @@ Each uploaded document is saved in the `documents` table of `Metadata.db`:
 | `chunk_count`       | Number of chunks stored             |
 | `uploaded_at`       | Upload timestamp                    |
 
+## Screenshots
+
+### 1. Uploading the file
+![Uploading the file](Outputs_screenshots/Uploading%20the%20file.png)
+
+### 2. Extracting the text
+![Extracting the text](Outputs_screenshots/Extracting%20the%20text.png)
+
+### 3. Fixed chunking
+![Fixed chunking](Outputs_screenshots/Fixed%20chunking.png)
+
+### 4. Paragraph chunking
+![Paragraph chunking](Outputs_screenshots/Paragraph%20chunking.png)
+
+### 5. Embedding
+![Embedding](Outputs_screenshots/Embedding.png)
+
+### 6. Pinecone storage
+![Pinecone storage](Outputs_screenshots/Pinecone%20storage.png)
+
+### 7. Metadata in SQLite
+![Metadata in SQLite](Outputs_screenshots/Metadata%20in%20SQLite.png)
+
 ## Limitation
 
 - PDFs that have images only will return no text.

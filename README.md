@@ -51,11 +51,16 @@ This is a FastAPI Backend where a REST API is built for document ingestion. It u
    pinecone_api_key=your_key_here
    ```
 
-6. Run the server in the terminal.
+## Running the FastAPI server
 
-   ```
-   uvicorn main:app --reload
-   ```
+From the project folder, with the virtual environment activated:
+
+```
+uvicorn main:app --reload
+```
+The server runs at http://127.0.0.1:8000.
+Interactive API docs (Swagger UI) are at http://127.0.0.1:8000/docs.
+Press Ctrl+C in the terminal to stop the server.
 
 ## Usage
 

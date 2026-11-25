@@ -75,18 +75,17 @@ def store_embeddings(doc_id, filename, chunks):
 
 import sqlite3
 from datetime import datetime
-
-database = sqlite3.connect("metadata.db",check_same_thread=False)
-database.execute("""
-      CREATE TABLE IF NOT EXISTS documents(
-      doc_id TEXT PRIMARY KEY,
-      filename TEXT,
-      file_type TEXT,
-      chunking_strategy TEXT,
-      chunk_count INTEGER,
-      uploaded_at TEXT
-      )
-    """)
+database = sqlite3.connect("Metadata.db",check_same_thread=False)
+database.execute(""" 
+          CREATE TABLE IF NOT EXISTS documents(
+          doc_id TEXT PRIMARY KEY,
+          filename TEXT,
+          file_type TEXT,
+          chunking_strategy TEXT,
+          chunk_count INT,
+          upload_at TEXT
+         )
+""")
 database.commit()
 
 def save_metadata(doc_id,filename,strategy,chunk_count):
@@ -95,11 +94,6 @@ def save_metadata(doc_id,filename,strategy,chunk_count):
         (doc_id,filename,filename.split(".")[-1].lower(),strategy,chunk_count,datetime.now().isoformat()),
     )
 database.commit()
-
-
-
-
-
 
 # The endpoint
 @app.post("/ingest")
@@ -117,10 +111,11 @@ async def ingest(file: UploadFile = File(...), chunking_strategy: str = Form("Fi
 
     doc_id = str(uuid.uuid4())
     store_embeddings(doc_id, file.filename, chunks)
+    save_metadata(doc_id,file.filename,chunking_strategy,len(chunks))
 
-    return {
-        "Document ID": doc_id,
-        "Filename": file.filename,
-        "Chunking strategy": chunking_strategy,
-        "Chunks stored": len(chunks),
+    return{
+        "Document ID" : doc_id,
+        "Filename" : file.filename,
+        "Chunking strategy" : chunking_strategy,
+        "No. of chunks stored" : len(chunks),
     }

@@ -1,7 +1,5 @@
 import os
-
 from dotenv import load_dotenv
-
 load_dotenv("Pinecone_API.env")
 
 Pinecone_api = os.getenv("pinecone_api_key")

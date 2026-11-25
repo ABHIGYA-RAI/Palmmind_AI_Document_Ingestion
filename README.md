@@ -1,4 +1,4 @@
-# Palmmind AI : Document Ingestion with REST API.
+# Palmmind AI : Document Ingestion with REST API
 
 This is a FastAPI Backend where a REST API is built for document ingestion. It uploads `.pdf` and `.txt` files, extracts the text, splits it into chunks, converts the chunks into embeddings, stores them in Pinecone and saves the metadata in SQLite database.
 
@@ -6,7 +6,7 @@ This is a FastAPI Backend where a REST API is built for document ingestion. It u
 
 1. Upload a `.pdf` or `.txt` file to `/ingest`.
 2. Text is extracted (`pypdf` for PDFs, direct read for TXT).
-3. Text is split into chunks using the selected strategy.
+3. Text is split into chunks using either Fixed chunking or Paragraph chunking strategy.
 4. Each chunk is converted into a 384-dimension vector using `all-MiniLM-L6-v2` (sentence-transformers).
 5. Vectors and chunk text are stored in a Pinecone index called `documents`.
 6. Document metadata is saved in a local SQLite database (`Metadata.db`).
@@ -15,15 +15,15 @@ This is a FastAPI Backend where a REST API is built for document ingestion. It u
 
 | Strategy    | Description                                                              |
 |-------------|--------------------------------------------------------------------------|
-| `Fixed`     | Splits text into 500-character chunks with a 50-character overlap.       |
-| `Paragraph` | Splits text by line breaks and groups lines into chunks of up to 500 characters. |
+| `Fixed`     | Splits text into 500 characters chunks with a 50 characters overlap.       |
+| `Paragraph` | Splits text by line breaks and groups lines where each chunk consists of a paragraph. |
 
 ## Tech stack
 
 - FastAPI
-- Pinecone (vector database)
-- sentence-transformers (embeddings)
-- SQLite (metadata)
+- Pinecone (Vector Database)
+- sentence-transformers (Embedding model)
+- SQLite (Database)
 - pypdf (PDF text extraction)
 
 ## Setup
@@ -51,13 +51,11 @@ This is a FastAPI Backend where a REST API is built for document ingestion. It u
    pinecone_api_key=your_key_here
    ```
 
-6. Run the server.
+6. Run the server in the terminal.
 
    ```
    uvicorn main:app --reload
    ```
-
-The Pinecone index (`documents`, 384 dimensions, cosine metric) is created automatically on first run. The first run also downloads the embedding model, so startup can take a while.
 
 ## Usage
 
@@ -91,7 +89,7 @@ curl -X POST "http://127.0.0.1:8000/ingest" \
 
 ### Errors
 
-- `400`: unsupported file type, invalid chunking strategy, or no text found in the file.
+- `400`: unsupported file type, invalid chunking strategy or no text found in the file.
 
 ## Metadata
 
@@ -102,11 +100,11 @@ Each uploaded document is saved in the `documents` table of `Metadata.db`:
 | `doc_id`            | Unique document ID (UUID)           |
 | `filename`          | Original file name                  |
 | `file_type`         | `pdf` or `txt`                      |
-| `chunking_strategy` | Strategy used                       |
+| `chunking_strategy` | Strategy used for chunking          |
 | `chunk_count`       | Number of chunks stored             |
 | `uploaded_at`       | Upload timestamp                    |
 
 ## Limitation
 
-- Scanned (image-only) PDFs return no text, since there is no OCR.
+- PDFs that have images only will return no text.
 

@@ -106,7 +106,7 @@ Each uploaded document is saved in the `documents` table of `Metadata.db`:
 | `chunk_count`       | Number of chunks stored             |
 | `uploaded_at`       | Upload timestamp                    |
 
-## Limitations
+## Limitation
 
 - Scanned (image-only) PDFs return no text, since there is no OCR.
 

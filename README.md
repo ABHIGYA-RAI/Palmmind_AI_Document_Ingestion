@@ -1,6 +1,6 @@
-# Palmmind RAG Backend
+# Palmmind AI : Document Ingestion with REST API.
 
-A FastAPI backend with a Document Ingestion API. It accepts `.pdf` and `.txt` files, extracts the text, splits it into chunks, converts the chunks into embeddings, stores them in Pinecone, and saves the document metadata in SQLite.
+This is a FastAPI Backend where a REST API is built for document ingestion. It uploads `.pdf` and `.txt` files, extracts the text, splits it into chunks, converts the chunks into embeddings, stores them in Pinecone and saves the metadata in SQLite database.
 
 ## How it works
 
